@@ -8,7 +8,11 @@ class ProductModel {
   ProductModel({
     required this.productItems,
   });
-
+    Map<String, dynamic> toJson() {
+    return {
+      'product_items': productItems,
+    };
+  }
   factory ProductModel.fromJson(Map<String, dynamic> json) => _$ProductModelFromJson(json);
 }
 

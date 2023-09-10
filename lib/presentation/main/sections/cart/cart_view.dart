@@ -21,126 +21,141 @@ class CartPage extends StatelessWidget {
         return Scaffold(
           body: Stack(
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SafeArea(
-                    child: Container(
-                      margin: const EdgeInsets.symmetric(horizontal: 20),
-                      child: defaultText(
-                        'Cart',
-                        size: 24,
-                        weight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: cartProvider.carts.length,
-                    padding: EdgeInsets.zero,
-                    itemBuilder: (ctx, index) {
-                      final item = cartProvider.carts[index];
-                      return Dismissible(
-                        key: Key(item.name),
-                        onDismissed: (direction) {
-                          cartProvider.removeFromCart(item);
-                        },
-                        background:  Container(
-                          color: Colors.red,
-                          alignment: Alignment.centerRight,
-                          padding: const EdgeInsets.only(right: 20.0),
-                          child:  const Icon(
-                            Icons.delete,
-                            color: Colors.white,
-                            size: 30.0,
-                          ),
-                        ),
-                        child: ListTile(
-                          contentPadding:
-                              const EdgeInsets.all(16.0), 
-                          title: Row(
-                            children: <Widget>[
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(22),
-                                child: defaultImageNetwork(
-                                  item.imageUrl,
-                                  height: 120,
-                                  width: 120,
-                                ),
-                              ),
-                              const SizedBox(width: 16.0), 
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(item.name),
-                                    Text('Price: ${formatter.format(item.price)} ฿'),
-                                    Row(
-                                      children: <Widget>[
-                                        IconButton(
-                                          icon: const Icon(Icons.remove),
-                                          onPressed: () {
-                                            cartProvider.updateCart(index,mode: Mode.decrease);
-                                          },
-                                        ),
-                                        Text(item.amount.toString()),
-                                        IconButton(
-                                          icon: const Icon(Icons.add),
-                                          onPressed: () {
-                                            cartProvider.updateCart(index,mode: Mode.increase);
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              ),
-            Column(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Container(
-                      margin: const EdgeInsets.only(left: 20),
-                      child: defaultText(
-                        'Total Price: ${formatter.format(cartProvider.totalPrice)} ฿',
-                        size: 13,
-                        color: "#000000",
-                        weight: FontWeight.bold
+                    SafeArea(
+                      child: Container(
+                        margin: const EdgeInsets.symmetric(horizontal: 20,vertical: 10,),
+                        child: defaultText(
+                          'Cart',
+                          size: 24,
+                          weight: FontWeight.bold,
+                        ),
                       ),
                     ),
-                    Expanded(
-                      child: defaultButton(
-                        context,
-                        title: 'Check out',
-                        onPressed: () {
-                          Navigator.pushNamed(
-                              context,
-                              Routes.checkoutPage,
-                              arguments: CheckOutViewArguments(
-                                  price: cartProvider.totalPrice),
-                            );
-                        },
-                      ),
+                    ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: cartProvider.carts.length,
+                      padding: EdgeInsets.zero,
+                      itemBuilder: (ctx, index) {
+                        final item = cartProvider.carts[index];
+                        return Dismissible(
+                          key: Key(item.name),
+                          onDismissed: (direction) {
+                            cartProvider.removeFromCart(item);
+                          },
+                          background:  Container(
+                            color: Colors.red,
+                            alignment: Alignment.centerRight,
+                            padding: const EdgeInsets.only(right: 20.0),
+                            child:  const Icon(
+                              Icons.delete,
+                              color: Colors.white,
+                              size: 30.0,
+                            ),
+                          ),
+                          child: ListTile(
+                            contentPadding:
+                                const EdgeInsets.all(16.0), 
+                            title: Row(
+                              children: <Widget>[
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(22),
+                                  child: defaultImageNetwork(
+                                    item.imageUrl,
+                                    height: 120,
+                                    width: 120,
+                                  ),
+                                ),
+                                const SizedBox(width: 16.0), 
+                                Expanded(
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(item.name),
+                                      Text('Price: ${formatter.format(item.price)} ฿'),
+                                      Row(
+                                        children: <Widget>[
+                                          IconButton(
+                                            icon: const Icon(Icons.remove),
+                                            onPressed: () {
+                                              cartProvider.updateCart(index,mode: Mode.decrease);
+                                            },
+                                          ),
+                                          Text(item.amount.toString()),
+                                          IconButton(
+                                            icon: const Icon(Icons.add),
+                                            onPressed: () {
+                                              cartProvider.updateCart(index,mode: Mode.increase);
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
                     ),
                   ],
                 ),
-              ],
-            ),
+              ),
+            _buttomButton(cartProvider, context),
             ],
           ),
         );
       }),
+    );
+  }
+
+  Column _buttomButton(CartProvider cartProvider, BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            const SizedBox(width: 10),
+            Expanded(
+              child: defaultText(
+                'Total Price: ${formatter.format(cartProvider.totalPrice)}฿',
+                size: 13,
+                color: "#000000",
+                weight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(width: 10),
+            Expanded(
+              flex: 2,
+              child: defaultButton(
+                context,
+                title: 'Check out',
+                onPressed: () {
+                  if (cartProvider.carts.isEmpty) return;
+                  Navigator.pushNamed(
+                    context,
+                    Routes.checkoutPage,
+                    arguments:
+                        CheckOutViewArguments(price: cartProvider.totalPrice),
+                  );
+                },
+              ),
+            ),
+            const SizedBox(width: 10),
+          ],
+        ),
+      ],
     );
   }
 }

@@ -31,12 +31,16 @@ class DetailsView extends StatelessWidget {
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
-                  child: defaultButton(
-                    context,
-                    onPressed: () {
-                      provider.updateCart();
-                    },
-                    title: "Add to cart",
+                  child: Container(
+                    height: 50,
+                    margin: const EdgeInsets.all(30),
+                    child: defaultButton(
+                      context,
+                      onPressed: () {
+                        provider.updateCart();
+                      },
+                      title: "Add to cart",
+                    ),
                   ),
                 )
               ],

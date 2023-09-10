@@ -15,6 +15,7 @@ class SavedViewProvider with ChangeNotifier {
 
   initData() async {
     isLoading = true;
+    list = [];
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/modified_data.json');
     try {
@@ -40,31 +41,25 @@ class SavedViewProvider with ChangeNotifier {
 
   setFavorites(int index){
     list[index].isFavorite = false;
+    copyAndModifyJsonIsFav(list[index].id);
     list.removeWhere((element) => element.id == list[index].id,);
-    copyAndModifyJsonIsFav(index);
+    
     notifyListeners();
   }
 
 
-Future<void> copyAndModifyJsonIsFav(int index) async {
+Future<void> copyAndModifyJsonIsFav(int id) async {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/modified_data.json');
     String jsonString = '';
     dynamic jsonData;
-    if (await file.exists()) {
       jsonString = await file.readAsString();
       jsonData = json.decode(jsonString);
-      jsonData['product_items'][index]['is_favorite'] = false;
-      final jsonStr = json.encode(jsonData);
+      final product = ProductModel.fromJson(jsonData);
+      product.productItems.where((e) => e.id == id).first.isFavorite = false;
+      final jsonStr = json.encode(product.toJson());
       await file.writeAsString(jsonStr);
-    } else {
-      final assetBundle = rootBundle;
-      jsonString = await assetBundle.loadString('assets/mock_up_data.json');
-      jsonData = json.decode(jsonString);
-      jsonData['product_items'][index]['is_favorite'] = false;
-      final jsonStr = json.encode(jsonData);
-      await file.writeAsString(jsonStr);
-    }
+
   }
 
 }

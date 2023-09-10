@@ -94,19 +94,16 @@ Widget defaultTextOiginal(
     String title = 'title',
     double fontSize = 16,
     String fontColor = "#FFFFFF",
+    EdgeInsetsGeometry? margin,
   }) {
-  return Container(
-    margin: const EdgeInsets.all(30),
-    height: 50,
-    child: CupertinoButton(
-      color: ColorManager.black,
-      onPressed: onPressed,
-      child: Center(
-        child: defaultText(
-          title,
-          size: fontSize,
-          color: fontColor,
-        ),
+  return CupertinoButton(
+    color: ColorManager.black,
+    onPressed: onPressed,
+    child: Center(
+      child: defaultText(
+        title,
+        size: fontSize,
+        color: fontColor,
       ),
     ),
   );
