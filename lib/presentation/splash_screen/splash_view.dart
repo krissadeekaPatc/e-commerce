@@ -1,9 +1,8 @@
 import 'dart:async';
-
-import 'package:e_comerce/presentation/resources/assets_manager.dart';
 import 'package:e_comerce/presentation/resources/color_manager.dart';
 import 'package:e_comerce/presentation/resources/routes_manager.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -39,10 +38,12 @@ class _SplashViewState extends State<SplashView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorManager.primary,
-      body: const Center(
-        child: Image(
-          image: AssetImage(ImageAssets.splashLogo),
+      backgroundColor: HexColor('#1e2db3'),
+      body: Center(
+        child: FaIcon(
+          FontAwesomeIcons.shop,
+          color: ColorManager.white,
+          size: 100,
         ),
       ),
     );

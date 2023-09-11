@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,7 +44,6 @@ class SavedViewProvider with ChangeNotifier {
     list[index].isFavorite = false;
     copyAndModifyJsonIsFav(list[index].id);
     list.removeWhere((element) => element.id == list[index].id,);
-    
     notifyListeners();
   }
 
@@ -53,13 +53,12 @@ Future<void> copyAndModifyJsonIsFav(int id) async {
     final file = File('${directory.path}/modified_data.json');
     String jsonString = '';
     dynamic jsonData;
-      jsonString = await file.readAsString();
-      jsonData = json.decode(jsonString);
-      final product = ProductModel.fromJson(jsonData);
-      product.productItems.where((e) => e.id == id).first.isFavorite = false;
-      final jsonStr = json.encode(product.toJson());
-      await file.writeAsString(jsonStr);
-
+    jsonString = await file.readAsString();
+    jsonData = json.decode(jsonString);
+    final product = ProductModel.fromJson(jsonData);
+    product.productItems.where((e) => e.id == id).first.isFavorite = false;
+    final jsonStr = json.encode(product.toJson());
+    await file.writeAsString(jsonStr);
   }
 
 }

@@ -85,7 +85,7 @@ class DetailsView extends StatelessWidget {
                   color: provider.item!.isFavorite ? Colors.red : Colors.black,
                 ),
                 onPressed: () {
-                  provider.setFavorites(args.index);
+                  provider.setFavorites(args.id);
                 },
               ),
             ],

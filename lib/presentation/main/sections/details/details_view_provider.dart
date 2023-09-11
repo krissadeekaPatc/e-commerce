@@ -34,18 +34,18 @@ class DetailsViewProvier extends ChangeNotifier {
     notifyListeners();
   }
 
-  setFavorites(int index) {
+  setFavorites(int id) {
     item!.isFavorite = !item!.isFavorite;
     copyAndModifyJsonIsFav(
       isFavorite: item!.isFavorite,
-      index: index,
+      id: id,
     );
     notifyListeners();
   }
 
   Future<void> copyAndModifyJsonIsFav({
     required dynamic isFavorite,
-    required int index,
+    required int id,
   }) async {
     final directory = await getApplicationDocumentsDirectory();
     final file = File('${directory.path}/modified_data.json');
@@ -54,15 +54,19 @@ class DetailsViewProvier extends ChangeNotifier {
     if (await file.exists()) {
       jsonString = await file.readAsString();
       jsonData = json.decode(jsonString);
-      jsonData['product_items'][index]['is_favorite'] = isFavorite;
-      final jsonStr = json.encode(jsonData);
+      final product = ProductModel.fromJson(jsonData);
+      product.productItems.where((e) => e.id == id).first.isFavorite =
+          isFavorite;
+      final jsonStr = json.encode(product.toJson());
       await file.writeAsString(jsonStr);
     } else {
       final assetBundle = rootBundle;
       jsonString = await assetBundle.loadString('assets/mock_up_data.json');
       jsonData = json.decode(jsonString);
-      jsonData['product_items'][index]['is_favorite'] = isFavorite;
-      final jsonStr = json.encode(jsonData);
+      final product = ProductModel.fromJson(jsonData);
+      product.productItems.where((e) => e.id == id).first.isFavorite =
+          isFavorite;
+      final jsonStr = json.encode(product.toJson());
       await file.writeAsString(jsonStr);
     }
   }
