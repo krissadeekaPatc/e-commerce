@@ -31,7 +31,7 @@ class HomeViewProvider with ChangeNotifier {
     notifyListeners();
   }
 
-setFavorites(int index){
+  setFavorites(int index){
     productModel.productItems[index].isFavorite =  !productModel.productItems[index].isFavorite;
     copyAndModifyJsonIsFav(
       isFavorite: productModel.productItems[index].isFavorite,
@@ -39,6 +39,11 @@ setFavorites(int index){
     );
     notifyListeners();
   } 
+
+  sortByPrice(){
+    productModel.productItems.sort((a, b) =>  a.price.compareTo(b.price));
+    notifyListeners();
+  }
 
 Future<void> copyAndModifyJsonIsFav({
     required dynamic isFavorite,

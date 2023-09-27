@@ -132,6 +132,12 @@ class HomeView extends StatelessWidget {
                       ],
                     ),
                   ),
+                  floatingActionButton: FloatingActionButton(
+                    onPressed: () {
+                      provider.sortByPrice();
+                    },
+                  ),
+                
                 );
         },
       ),

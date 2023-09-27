@@ -17,7 +17,7 @@ void main() {
       ],
     );
     
-   final item =productModel.productItems[0];
+   final item = productModel.productItems[0];
     testWidgets('Home Test Data', (WidgetTester tester) async {
       await tester.pumpWidget(const SavedView());
       expect(find.byType(SavedView), findsOneWidget);
